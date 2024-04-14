@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+WexPurchaseTransactionApp,org.wex.controller,PurchaseTransactionController,0,23,0,0,0,5,0,3,0,3
+WexPurchaseTransactionApp,org.wex.service,ExchangeRateConsumingService,0,44,0,0,0,8,0,3,0,3
+WexPurchaseTransactionApp,org.wex.service,PurchaseTransactionService,0,125,0,0,0,26,0,9,0,9

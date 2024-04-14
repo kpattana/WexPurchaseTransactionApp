@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PurchaseTransactionController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">WexPurchaseTransactionApp</a> &gt; <a href="index.source.html" class="el_package">org.wex.controller</a> &gt; <span class="el_source">PurchaseTransactionController.java</span></div><h1>PurchaseTransactionController.java</h1><pre class="source lang-java linenums">package org.wex.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.wex.dto.PurchaseOrder;
+import org.wex.entity.PurchaseTransaction;
+import org.wex.service.PurchaseTransactionService;
+
+/*
+swagger - done
+post &amp; get - done
+security - done
+lombok -- done
+should return response entity -done
+error handling -done
+logging - done
+get rid of import * - done
+unit test &amp; jacoco -
+inMemeory manager parametierised - done
+ */
+@RestController
+@RequestMapping(&quot;/v1/purchase-orders&quot;)
+@SecurityRequirement(name = &quot;login&quot;)
+@Tag(name = &quot;Purchase Transaction Controller&quot;, description = &quot;Api controller to add and fetch purchase transaction with exchange rate applied.&quot;)
+public class PurchaseTransactionController {
+    private final PurchaseTransactionService purchaseTransactionService;
+
+<span class="fc" id="L42">    public PurchaseTransactionController(PurchaseTransactionService purchaseTransactionService) {</span>
+<span class="fc" id="L43">        this.purchaseTransactionService = purchaseTransactionService;</span>
+<span class="fc" id="L44">    }</span>
+
+    @Operation(summary = &quot;Create new purchase transaction&quot;, description = &quot;Create new purchase transaction&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;201&quot;, description = &quot;Successfully created.&quot;),
+            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorised - please provide valid credentials.&quot;),
+            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error.&quot;)
+    })
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity&lt;PurchaseTransaction&gt; savePurchaseOrder(@RequestBody @Valid PurchaseTransaction purchaseOrderRequest) {
+<span class="fc" id="L55">        return new ResponseEntity&lt;&gt;(purchaseTransactionService.createPurchaseOrder(purchaseOrderRequest), HttpStatus.CREATED);</span>
+    }
+
+    @Operation(summary = &quot;Retrieve purchase transaction&quot;, description = &quot;Retrieve purchase transaction for given currency&quot;)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Successfully retrieved.&quot;),
+            @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Unauthorised - please provide valid credentials.&quot;),
+            @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Internal server error.&quot;)
+    })
+    @GetMapping(value = &quot;/{id}/{countryCurrency}&quot;, produces = &quot;application/json&quot;)
+    public ResponseEntity&lt;PurchaseOrder&gt; getPurchaseOrder(
+            @PathVariable @Parameter(name = &quot;id&quot;, description = &quot;Purchase transaction id&quot;, example = &quot;1&quot;) final long id,
+            @PathVariable @Parameter(name = &quot;countryCurrency&quot;, description = &quot;Currency exchange rate to be applied&quot;, example = &quot;United Kingdom-Pound&quot;) final String countryCurrency) {
+<span class="fc" id="L68">        return ResponseEntity.ok().body(purchaseTransactionService.getPurchaseTransactionInTargetCurrency(id, countryCurrency));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
