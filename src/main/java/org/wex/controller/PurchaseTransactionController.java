@@ -20,18 +20,6 @@ import org.wex.dto.PurchaseOrder;
 import org.wex.entity.PurchaseTransaction;
 import org.wex.service.PurchaseTransactionService;
 
-/*
-swagger - done
-post & get - done
-security - done
-lombok -- done
-should return response entity -done
-error handling -done
-logging - done
-get rid of import * - done
-unit test & jacoco -
-inMemeory manager parametierised - done
- */
 @RestController
 @RequestMapping("/v1/purchase-orders")
 @SecurityRequirement(name = "login")
